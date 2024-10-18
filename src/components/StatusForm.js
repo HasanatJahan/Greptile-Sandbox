@@ -1,26 +1,44 @@
 import React, { useState } from 'react';
+import { fetchStatusAPI } from '../services/api';
 
-const StatusForm = ({ session }) => {
-    const [repositoryId, setRepositoryId] = useState('');
+const StatusForm = ({ onResponse, sessionId }) => {
+    const [apiKey, setApiKey] = useState('');
+    const [githubToken, setGithubToken] = useState('');
+    const [repoId, setRepoId] = useState('');
 
-    const handleStatusCheck = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Call API to check repository status
-        console.log('Checking Status for Repository ID:', repositoryId);
+        const response = await fetchStatusAPI(apiKey, githubToken, repoId);
+        onResponse(response, 'status', { apiKey, githubToken, repoId }, sessionId); // Save the request and response
     };
 
     return (
-        <form onSubmit={handleStatusCheck}>
+        <form onSubmit={handleSubmit}>
             <h3>Check Repository Status</h3>
-            <div>
-                <label>Repository ID:</label>
-                <input
-                    type="text"
-                    value={repositoryId}
-                    onChange={(e) => setRepositoryId(e.target.value)}
-                    placeholder="Enter the repository ID"
-                />
-            </div>
+            <label>Greptile API Key:</label>
+            <input
+                type="text"
+                value={apiKey}
+                onChange={(e) => setApiKey(e.target.value)}
+                placeholder="Enter your Greptile API Key"
+                required
+            />
+            <label>GitHub Token:</label>
+            <input
+                type="text"
+                value={githubToken}
+                onChange={(e) => setGithubToken(e.target.value)}
+                placeholder="Enter your GitHub Token"
+                required
+            />
+            <label>Repository ID:</label>
+            <input
+                type="text"
+                value={repoId}
+                onChange={(e) => setRepoId(e.target.value)}
+                placeholder="Enter the Repository ID"
+                required
+            />
             <button type="submit">Check Status</button>
         </form>
     );

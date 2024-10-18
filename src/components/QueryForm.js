@@ -1,46 +1,30 @@
 import React, { useState } from 'react';
+import { fetchQueryAPI } from '../services/api';
 
-const QueryForm = ({ session }) => {
-    const [query, setQuery] = useState('');
+const QueryForm = ({ onResponse, sessionId }) => {
+    const [apiKey, setApiKey] = useState('');
+    const [githubToken, setGithubToken] = useState('');
     const [repoUrl, setRepoUrl] = useState('');
+    const [query, setQuery] = useState('');
 
-    const handleSubmitQuery = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-
-        // Check if the session is available or repository URL is set
-        if (!repoUrl) {
-            console.error('Repository URL is missing.');
-            return;
-        }
-
-        // Call API for querying (you can add your API call logic here)
-        console.log('Querying Repository:', { query, repoUrl });
+        const response = await fetchQueryAPI(apiKey, githubToken, query, repoUrl);
+        onResponse(response, 'query', { apiKey, githubToken, query, repoUrl }, sessionId);
     };
 
     return (
-        <form onSubmit={handleSubmitQuery}>
+        <form onSubmit={handleSubmit}>
             <h3>Query Repository</h3>
-            <div>
-                <label>Query:</label>
-                <input
-                    type="text"
-                    value={query}
-                    onChange={(e) => setQuery(e.target.value)}
-                    placeholder="Enter your query"
-                    required
-                />
-            </div>
-            <div>
-                <label>Repository URL:</label>
-                <input
-                    type="text"
-                    value={repoUrl}
-                    onChange={(e) => setRepoUrl(e.target.value)}
-                    placeholder="Enter the repository URL"
-                    required
-                />
-            </div>
-            <button type="submit">Run Query</button>
+            <label>Greptile API Key:</label>
+            <input type="text" value={apiKey} onChange={(e) => setApiKey(e.target.value)} required />
+            <label>GitHub Token:</label>
+            <input type="text" value={githubToken} onChange={(e) => setGithubToken(e.target.value)} required />
+            <label>Repository URL:</label>
+            <input type="text" value={repoUrl} onChange={(e) => setRepoUrl(e.target.value)} required />
+            <label>Query:</label>
+            <input type="text" value={query} onChange={(e) => setQuery(e.target.value)} required />
+            <button type="submit">Submit</button>
         </form>
     );
 };

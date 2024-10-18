@@ -1,48 +1,29 @@
 import React, { useState } from 'react';
+import { fetchIndexAPI } from '../services/api.js';
 
-function IndexForm() {
+const IndexForm = ({ onResponse, sessionId }) => {
     const [apiKey, setApiKey] = useState('');
     const [githubToken, setGithubToken] = useState('');
     const [repoUrl, setRepoUrl] = useState('');
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        console.log('Indexing Repository:', { apiKey, githubToken, repoUrl });
-        // Implement your API call logic here.
+        const response = await fetchIndexAPI(apiKey, githubToken, repoUrl);
+        onResponse(response, 'index', { apiKey, githubToken, repoUrl }, sessionId);
     };
 
     return (
         <form onSubmit={handleSubmit}>
-            <div>
-                <label>Greptile API Key:</label>
-                <input
-                    type="text"
-                    value={apiKey}
-                    onChange={(e) => setApiKey(e.target.value)}
-                    placeholder="Enter your Greptile API Key"
-                />
-            </div>
-            <div>
-                <label>GitHub Token:</label>
-                <input
-                    type="text"
-                    value={githubToken}
-                    onChange={(e) => setGithubToken(e.target.value)}
-                    placeholder="Enter your GitHub Token"
-                />
-            </div>
-            <div>
-                <label>Repository URL:</label>
-                <input
-                    type="text"
-                    value={repoUrl}
-                    onChange={(e) => setRepoUrl(e.target.value)}
-                    placeholder="Enter the repository URL"
-                />
-            </div>
-            <button type="submit">Start Indexing</button>
+            <h3>Index Repository</h3>
+            <label>Greptile API Key:</label>
+            <input type="text" value={apiKey} onChange={(e) => setApiKey(e.target.value)} required />
+            <label>GitHub Token:</label>
+            <input type="text" value={githubToken} onChange={(e) => setGithubToken(e.target.value)} required />
+            <label>Repository URL:</label>
+            <input type="text" value={repoUrl} onChange={(e) => setRepoUrl(e.target.value)} required />
+            <button type="submit">Submit</button>
         </form>
     );
-}
+};
 
 export default IndexForm;

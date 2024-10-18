@@ -23,6 +23,7 @@ const SessionDetail = ({ session }) => {
             <div className="response-container">
                 <h3>API Response</h3>
                 {apiResponse ? <pre>{JSON.stringify(apiResponse, null, 2)}</pre> : <p>No response yet.</p>}
+
             </div>
 
             {/* List of previous API calls */}
