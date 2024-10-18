@@ -27,6 +27,11 @@ function extractRepoInfo(githubURL) {
 export const fetchIndexAPI = async (apiKey, githubToken, repoUrl) => {
     const respository_identifier = extractRepoInfo(repoUrl);
     console.log(respository_identifier)
+    const payload = {
+        remote: "github",
+        repository: respository_identifier
+    };
+
     try {
         const response = await fetch(`https://api.greptile.com/v2/repositories`, {
             method: 'POST',
@@ -35,7 +40,7 @@ export const fetchIndexAPI = async (apiKey, githubToken, repoUrl) => {
                 'X-Github-Token': githubToken,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ remote: "github", repository: respository_identifier })
+            body: JSON.stringify(payload)
         });
         const data = await response.json();
 
