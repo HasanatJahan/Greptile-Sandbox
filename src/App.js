@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import SessionList from './components/SessionList';
 import SessionDetail from './components/SessionDetail';
 import { createNewSession, getAllSessions } from './utils/sessionUtils';
+import './styles/globals.css';
 
 function App() {
   const [sessions, setSessions] = useState(getAllSessions());

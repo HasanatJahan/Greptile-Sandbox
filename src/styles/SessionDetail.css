@@ -119,19 +119,60 @@ button[type="submit"]:hover {
 }
 
 /* Response Container */
+/* Styling for the API response container */
 .response-container {
     margin-top: 20px;
-    background-color: #121212;
-    /* Darker background for response */
+    background-color: #1e1e1e;
+    /* Dark background for the response box */
     padding: 20px;
-    border-radius: 4px;
+    border-radius: 8px;
     border: 1px solid #333;
-    width: 100%;
-    max-width: 600px;
-    /* Set a max width for the response container */
-    margin: 0 auto;
-    /* Center response container */
+    /* Subtle border for a clean look */
+    max-height: 400px;
+    /* Limit height to handle large responses */
+    overflow-y: auto;
+    /* Enable scroll if content exceeds height */
+    font-family: 'Courier New', Courier, monospace;
+    /* Monospace font for code-like appearance */
+    color: #e0e0e0;
+    /* Light text color */
+    white-space: pre-wrap;
+    /* Preserve whitespace and line breaks */
+    word-wrap: break-word;
+    /* Prevent long words from overflowing */
 }
+
+/* Highlighting specific elements in JSON for better readability */
+.response-container .key {
+    color: #9cdcfe;
+    /* Light blue for keys */
+}
+
+.response-container .string {
+    color: #ce9178;
+    /* Light orange for strings */
+}
+
+.response-container .number {
+    color: #b5cea8;
+    /* Light green for numbers */
+}
+
+.response-container .boolean {
+    color: #569cd6;
+    /* Blue for booleans */
+}
+
+.response-container .null {
+    color: #569cd6;
+    /* Blue for null values */
+}
+
+.response-container .brace {
+    color: #d4d4d4;
+    /* Gray for brackets/braces */
+}
+
 
 .response-container h3 {
     color: #ffffff;
